@@ -1,0 +1,18 @@
+PROBLEM NAME: Maximum Value at a Given Index in a Bounded Array
+Problem Link: https://leetcode.com/problems/maximum-value-at-a-given-index-in-a-bounded-array/
+
+int maxValue(int n, int index, int maxSum){
+      int left = index, right = index, sum = n, height = 1;
+            
+           while (sum + right - left + 1 <= maxSum){
+               sum += right - left + 1;
+               left = max(0, left-1);
+               right = min(n-1, right+1);
+               height++;
+
+               if(left == 0 && right == n-1){
+                   return height + (maxSum - sum)/n;
+               }
+           }
+      return height;
+}
