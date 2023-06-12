@@ -1,0 +1,26 @@
+PROBLEM LINK: Summary Ranges
+Problem Link: https://leetcode.com/problems/summary-ranges/solutions/3627109/daily-leetcoding-challenge-june-day-12/
+
+
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        if (nums.size() == 0) return {};
+        vector<string> ans;
+        pair<int, int> p = {nums[0], nums[0]};
+        for (int i=1; i<nums.size(); i++) {
+            if (nums[i] == p.second + 1) {
+                p.second = nums[i];
+            }
+            else {
+                if (p.first == p.second) ans.push_back(to_string(p.first));
+                else ans.push_back(to_string(p.first) + "->" + to_string(p.second));
+
+                p.first = p.second = nums[i];
+            }
+        }
+        if (p.first == p.second) ans.push_back(to_string(p.first));
+        else ans.push_back(to_string(p.first) + "->" + to_string(p.second));
+        return ans;
+    }
+};
