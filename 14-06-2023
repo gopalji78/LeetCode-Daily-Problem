@@ -1,0 +1,63 @@
+Problem Link: https://leetcode.com/problems/minimum-absolute-difference-in-bst/description/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void solver(TreeNode* root, int& ans) {
+        if (root == NULL) return;
+
+        if (root->left == NULL && root->right == NULL) return;
+
+        if (root->left && root->right) {
+            TreeNode* a = root->left;
+            TreeNode* b = root->right;
+
+            while (a->right) {
+                a = a->right;
+            }
+
+            while (b->left) {
+                b = b->left;
+            }
+
+            ans = min(ans, min(abs(root->val - a->val), abs(root->val - b->val)));
+        }
+
+        else if (root->left) {
+            TreeNode* a = root->left;
+            while (a->right) {
+                a = a->right;
+            }
+
+            ans = min(ans, abs(root->val - a->val));
+        }
+
+        else {
+            TreeNode* b = root->right;
+            while (b->left) {
+                b = b->left;
+            }
+
+            ans = min(ans, abs(root->val - b->val));
+        }
+        
+        solver(root->left, ans);
+        solver(root->right, ans);
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        int ans = INT_MAX;
+        solver(root, ans);
+        return ans;
+    }
+};
