@@ -1,0 +1,15 @@
+PROBLRM NAME: FIND THE HIGHEST ALTITUDE
+Problem Link: https://leetcode.com/problems/find-the-highest-altitude/
+
+class Solution {
+public:
+    int largestAltitude(vector<int>& gain) {
+        int maxAltitute = 0;
+        int currAltitute = 0;
+        for (int i=0; i<gain.size(); i++) {
+            currAltitute +=gain[i];
+            maxAltitute = max(maxAltitute, currAltitute);
+        }
+        return maxAltitute;
+    }
+};
