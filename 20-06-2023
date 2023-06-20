@@ -1,0 +1,21 @@
+PROBLEM NAME: K Radius Subarray Averages
+Problem Name: https://leetcode.com/problems/k-radius-subarray-averages/description/
+
+class Solution {
+public:
+    vector<int> getAverages(vector<int>& nums, int k) {
+        if (k==0) return nums;
+        int n = nums.size();
+        vector<long long> preSum(n, 0);
+        vector<int> ans(n, 0);
+
+        for (int i=0; i<n; i++) preSum[i] = nums[i] + (i>0?preSum[i-1]:0);
+
+        for (int i=0; i<n; i++) {
+            if (i<k || i>n-k-1) ans[i] = -1;
+            else ans[i] = (preSum[i+k] - (i-k-1 < 0?0:preSum[i-k-1])) / (2*k + 1);
+        }
+
+        return ans;
+    }
+};
