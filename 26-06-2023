@@ -1,0 +1,65 @@
+PROBLEM NAME:  Total Cost to Hire K Workers
+Problem Link: https://leetcode.com/problems/total-cost-to-hire-k-workers/
+
+class Solution {
+public:
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        priority_queue<int, vector<int>, greater<int>> q1, q2;
+        int n = costs.size();
+        int temp = min(n, candidates);
+        for (int i=0; i<temp; i++) {
+            q1.push(costs[i]);
+        }
+        int p1 = temp, p2 = costs.size() - 1;
+        temp = 0;
+        while (temp < candidates && p2>=p1) {
+            q2.push(costs[p2]);
+            temp++;
+            p2--;
+        }
+
+
+        long long totalCost = 0;
+        int hired = 0;
+
+        while (hired < k && !q1.empty() && !q2.empty()) {
+            if (q1.top() <= q2.top()) {
+                totalCost += q1.top();
+                q1.pop();
+
+                if (p1<=p2) {
+                    q1.push(costs[p1++]);
+                }
+            }else {
+                totalCost+= q2.top();
+                q2.pop();
+
+                if (p2>=p1) {
+                    q2.push(costs[p2--]);
+                }
+            }
+            hired++;
+        }
+
+
+        while (hired < k && !q1.empty()) {
+            totalCost += q1.top();
+            q1.pop();
+
+            if (p1<=p2) {
+                q1.push(costs[p1++]);
+            }
+            hired++;
+        } 
+
+        while (hired < k && !q2.empty()) {
+            totalCost+= q2.top();
+            q2.pop();
+            if (p2>=p1) {
+                q2.push(costs[p2--]);
+            }
+            hired++;
+        }
+        return totalCost;
+    }
+};
